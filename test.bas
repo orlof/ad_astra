@@ -1,67 +1,34 @@
-ASM
-Start:
-    lda #$38   ; 25 rows, on, bitmap
-    sta $d011  ; VIC control #1
-    lda #$18   ; 40 column, multicolor
-    sta $d016  ; VIC control #2
-    lda #$02
-    sta $dd00  ; set VIC bank ($4000-$7FFF)
-    lda #$80
-    sta $d018  ; set VIC screen to $6000
-    lda XtraData+0
-    sta $d020  ; border
-    sta $d021  ; background
-    lda #0
-    sta Dest
-; copy char memory
-    lda #<CharData
-    sta Src
-    lda #>CharData
-    sta Src+1
-    lda #$40
-    sta Dest+1
-    ldx #$20
-    jsr CopyMem
-; copy screen memory
-    lda #<ScreenData
-    sta Src
-    lda #>ScreenData
-    sta Src+1
-    lda #$60
-    sta Dest+1
-    ldx #$04
-    jsr CopyMem
-; copy color RAM
-    lda #<ColorData
-    sta Src
-    lda #>ColorData
-    sta Src+1
-    lda #$d8
-    sta Dest+1
-    ldx #4
-    jsr CopyMem
-; infinite loop
-    jmp .
+INCLUDE "libs/lib_hex.bas"
+INCLUDE "libs/lib_sid.bas"
+INCLUDE "libs/lib_joy.bas"
 
-; copy data from Src to Dest
-; X = number of bytes * 256
-CopyMem
-    ldy #0
-.Loop
-    lda (Src),y
-    sta (Dest),y
-    iny
-    bne .Loop
-    inc Src+1
-    inc Dest+1
-    dex
-    bne .Loop
-    rts
+INCLUDE "libs/lib_color.bas"
+INCLUDE "libs/lib_memory.bas"
+INCLUDE "libs/lib_char.bas"
+INCLUDE "libs/lib_mc.bas"
 
-; bitmap data
-CharData equ .
-ScreenData equ CharData+8000
-ColorData equ ScreenData+1000
-XtraData equ ColorData+1000
-    incbin "174118-space-stars-planet-horizon-c64.multi.bin"
-END ASM
+DIM Image AS TypeMCBitmap
+Image.BorderColor = COLOR_BLACK
+Image.ScreenColor = COLOR_BLACK
+CALL Image.Init(3, 1, 0)
+CALL Image.Import(@TITLE_IMAGE, @TITLE_IMAGE + 8000, @TITLE_IMAGE + 9000)
+CALL Image.Centre(11, "Press Fire", COLOR_YELLOW, COLOR_BLACK, 1)
+CALL Image.Activate()
+
+DIM sid AS SidInfo
+CALL sid.Import(@SID_START, @SID_END)
+CALL sid.play(0)
+
+CALL Joy1.WaitClick()
+
+CALL sid.Stop()
+
+END
+
+TITLE_IMAGE:
+incbin "title.bin"
+
+SID_START:
+incbin "Tubular_Bells_revisited.sid"
+SID_END:
+END
