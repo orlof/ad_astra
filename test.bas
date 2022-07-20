@@ -6,6 +6,7 @@ INCLUDE "ext/lib_color.bas"
 INCLUDE "ext/lib_memory.bas"
 INCLUDE "ext/lib_char.bas"
 INCLUDE "ext/lib_mc.bas"
+INCLUDE "ext/lib_scr.bas"
 
 DIM Image AS TypeMCBitmap
 Image.BorderColor = COLOR_BLACK
@@ -21,7 +22,13 @@ CALL sid.play(0)
 
 CALL Joy1.WaitClick()
 
+DIM Text AS TextScreen
+CALL Text.Init()
+CALL Text.Fill(1,1)
+CALL Text.Activate()
+
 CALL sid.Stop()
+RegBorderColor = COLOR_WHITE
 
 END
 
