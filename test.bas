@@ -1,11 +1,11 @@
-INCLUDE "libs/lib_hex.bas"
-INCLUDE "libs/lib_sid.bas"
-INCLUDE "libs/lib_joy.bas"
+INCLUDE "ext/lib_hex.bas"
+INCLUDE "ext/lib_sid.bas"
+INCLUDE "ext/lib_joy.bas"
 
-INCLUDE "libs/lib_color.bas"
-INCLUDE "libs/lib_memory.bas"
-INCLUDE "libs/lib_char.bas"
-INCLUDE "libs/lib_mc.bas"
+INCLUDE "ext/lib_color.bas"
+INCLUDE "ext/lib_memory.bas"
+INCLUDE "ext/lib_char.bas"
+INCLUDE "ext/lib_mc.bas"
 
 DIM Image AS TypeMCBitmap
 Image.BorderColor = COLOR_BLACK
