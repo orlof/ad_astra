@@ -10,7 +10,7 @@ TYPE Star
 END TYPE
 DIM StarField(NUM_STARS) AS Star
 
-DIM Image AS TypeMCBitmap
+DIM Image AS ScreenMultiColor
 Image.BorderColor = COLOR_BLACK
 Image.ScreenColor = COLOR_BLACK
 
