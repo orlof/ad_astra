@@ -26,10 +26,13 @@ SUB TitleShow(TitleImage AS WORD) STATIC SHARED
     CALL Image.Centre(11, "Press Fire", COLOR_YELLOW, COLOR_BLACK, 1)
     CALL Image.Activate()
 
+    FOR t AS Byte = 0 TO 5
+        CALL WaitRasterLine256()
+    NEXT t
+
     CALL sid.play(0)
 
-    CALL MemoryVicBank(3)
-    CALL SprInit(SPR_MODE_8)
+    CALL SprInit(SPR_MODE_8, 3)
     CALL SprShapeImport(@SPR_STAR, 16)
 
     REM -- INIT STARFIELD

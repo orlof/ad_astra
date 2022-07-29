@@ -36,9 +36,9 @@ loop:
         lda #0
         sta ({ZP_W0}),y
 
-        clc                         ;y = player.y + star.y
+        sec                         ;y = player.y + star.y
         lda {y},x
-        adc {PlayerY}
+        sbc {PlayerY}
         tay
 
         lda {hires_y_tbl_lo},y      ;addr by y
@@ -46,9 +46,9 @@ loop:
         lda {hires_y_tbl_hi},y
         sta {ZP_W0}+1
 
-        clc                         ;x = player.x + star.x
+        sec                         ;x = player.x + star.x
         lda {x},x
-        adc {PlayerX}
+        sbc {PlayerX}
         sta {ZP_B1}
 
         and #%11111000
